@@ -1,0 +1,40 @@
+services:
+  auth-service:
+    build: ./auth
+    ports:
+      - "3000:3000"
+
+  enter-data:
+    build: ./enter_data
+    ports:
+      - "5000:5000"
+    depends_on:
+      - auth-service
+      - mysql-db
+
+  mysql-db:
+    build: ./mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3306:3306"
+
+  analytics-service:
+    build: ./analytics
+    depends_on:
+      - mysql-db
+      - mongo-db
+
+  mongo-db:
+    build: ./mongo_db
+    ports:
+      - "27017:27017"
+
+  show-results:
+    build: ./results
+    ports:
+      - "4000:4000"
+    depends_on:
+      - auth-service
+      - mongo-db
