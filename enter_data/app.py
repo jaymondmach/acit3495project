@@ -15,7 +15,8 @@ db = mysql.connector.connect(
 def enter_data():
     data = request.json
     user_token = request.headers.get('Authorization')
-
+    
+    
     # Validate token (mock validation)
     if user_token != 'fake-token':
         return jsonify({"message": "Unauthorized"}), 401
