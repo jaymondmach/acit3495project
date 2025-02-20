@@ -20,7 +20,8 @@ app.post("/auth", (req, res) => {
       .status(200)
       .json({ message: "Authentication successful", token: "fake-token" });
   } else {
-    res.status(401).json({ message: "Invalid credentials" });
+
+    res.status(401).json({ message: "Invalid credentials", username, password });
   }
 });
 
