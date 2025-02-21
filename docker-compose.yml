@@ -6,7 +6,7 @@ services:
       MYSQL_DATABASE: mydb
     ports:
       - "3306:3306"
-      
+
   auth-service:
     build: ./auth
     ports:
