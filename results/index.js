@@ -24,9 +24,9 @@ app.get("/results", async (req, res) => {
     .project({ _id: 0 })  // Exclude _id
     .toArray();
 
+    res.status(200).json(stats[0]);
   });
-  res.status(200).json(stats[0]);
-  
+
 const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`Show Results service running on port ${PORT}`);
