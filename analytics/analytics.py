@@ -35,8 +35,9 @@ def compute_stats():
     inserted_doc = collection.insert_one(stats)
     
     stats["_id"] = str(inserted_doc.inserted_id)
+    
+    print("Stats computed and written to MongoDB:", stats, flush=True)
 
-    print("Stats computed and written to MongoDB:", stats)
 
     return jsonify({"message": "Stats computed and written to MongoDB", "stats": stats}), 200
 
