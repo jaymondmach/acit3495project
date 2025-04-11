@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enter-data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enter-data
+  template:
+    metadata:
+      labels:
+        app: enter-data
+    spec:
+      containers:
+        - name: enter
+          image: jaymondm/enter-data:latest
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enter-data
+spec:
+  selector:
+    app: enter-data
+  ports:
+    - port: 5000
+      targetPort: 5000

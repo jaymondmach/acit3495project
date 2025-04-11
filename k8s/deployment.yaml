@@ -1,0 +1,213 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: project2
+---
+# MySQL DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-db
+  namespace: project2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-db
+  template:
+    metadata:
+      labels:
+        app: mysql-db
+    spec:
+      containers:
+        - name: mysql
+          image: jaymondm/mysql-db:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "mydb"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-db
+  namespace: project2
+spec:
+  selector:
+    app: mysql-db
+  ports:
+    - port: 3306
+      targetPort: 3306
+---
+# Auth Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: project2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth
+          image: jaymondm/auth-service:latest
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: project2
+spec:
+  selector:
+    app: auth-service
+  ports:
+    - port: 3000
+      targetPort: 3000
+---
+# Enter Data
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enter-data
+  namespace: project2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enter-data
+  template:
+    metadata:
+      labels:
+        app: enter-data
+    spec:
+      containers:
+        - name: enter
+          image: jaymondm/enter-data:latest
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enter-data
+  namespace: project2
+spec:
+  selector:
+    app: enter-data
+  ports:
+    - port: 5000
+      targetPort: 5000
+---
+# Analytics Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-service
+  namespace: project2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: analytics-service
+  template:
+    metadata:
+      labels:
+        app: analytics-service
+    spec:
+      containers:
+        - name: analytics
+          image: jaymondm/analytics-service:latest
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-service
+  namespace: project2
+spec:
+  selector:
+    app: analytics-service
+  ports:
+    - port: 8000
+      targetPort: 8000
+---
+# Mongo DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-db
+  namespace: project2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-db
+  template:
+    metadata:
+      labels:
+        app: mongo-db
+    spec:
+      containers:
+        - name: mongo
+          image: jaymondm/mongo-db:latest
+          ports:
+            - containerPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-db
+  namespace: project2
+spec:
+  selector:
+    app: mongo-db
+  ports:
+    - port: 27017
+      targetPort: 27017
+---
+# Show Results
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: show-results
+  namespace: project2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: show-results
+  template:
+    metadata:
+      labels:
+        app: show-results
+    spec:
+      containers:
+        - name: results
+          image: jaymondm/show-results:latest
+          ports:
+            - containerPort: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: show-results
+  namespace: project2
+spec:
+  selector:
+    app: show-results
+  ports:
+    - port: 4000
+      targetPort: 4000
